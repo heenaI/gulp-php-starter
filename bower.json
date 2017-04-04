@@ -1,0 +1,22 @@
+{
+  "name": "gulp-php",
+  "description": "starter template for gulp php projects",
+  "main": "index.php",
+  "authors": [
+    "Hina Imran"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "gulp",
+    "php"
+  ],
+  "homepage": "https://github.com/heenaI/gulp-php-starter",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
