@@ -8,7 +8,7 @@ var gulp   = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     livereload = require('gulp-livereload'),
     connect = require('gulp-connect-php'),
-    browserSync = require('browser-sync').create(),
+    browserSync = require('browser-sync'),
     notify = require("gulp-notify"),
     bower = require('gulp-bower');
 
@@ -40,20 +40,25 @@ gulp.task('build-js', function() {
     .pipe(livereload());
 });
 
-gulp.task('serve', ['sass'], function() {
-  browserSync.init({
-        proxy: '127.0.0.1:8000/source'
+gulp.task('connect-sync', function() {
+  connect.server({}, function (){
+    browserSync({
+      proxy: '127.0.0.1:8000/source'
     });
-    gulp.watch("source/scss/*.scss", ['sass']);
-    gulp.watch("**/*.php").on('change', browserSync.reload);
+  });
+ 
+  gulp.watch('**/*.php').on('change', function () {
+    browserSync.reload();
+  });
+
 });
+
 
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
     return gulp.src("app/scss/*.scss")
         .pipe(sass())
         .pipe(gulp.dest("app/css"))
-        .pipe(browserSync.stream());
 });
 
 
@@ -69,7 +74,7 @@ gulp.task('icons', function() {
         .pipe(gulp.dest('./public/fonts'));
 });
 
-gulp.task('default', ['bower', 'icons', 'build-js', 'build-css', 'serve']);
+gulp.task('default', ['bower', 'icons', 'build-js', 'build-css', 'connect-sync']);
 
 
 
